@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { RaisedButton, Paper, FlatButton, IconButton, TextField } from 'material-ui';
-import { brown500, fullWhite, teal500 } from 'material-ui/styles/colors';
+import { fullWhite, teal500 } from 'material-ui/styles/colors';
 import { FirebaseDb } from '../helpers/firebase';
 import endpoint from '../helpers/endpoint';
 
@@ -132,8 +132,8 @@ class Checkbox extends Component {
         <RaisedButton
           label={`지금 ${label}했어요!`}
           labelColor={fullWhite}
-          backgroundColor={brown500}
           onClick={this.handleClick}
+          secondary
           disabled={isChecked}
         />
         {
