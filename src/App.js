@@ -5,7 +5,7 @@ import { currentUser } from './helpers/firebase';
 // material ui
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import customTheme from './helpers/theme';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 
 import Container from './components/Container';
 import SignIn from './components/SignIn';
@@ -24,7 +24,7 @@ const requireAuth = (nextState, replace) => {
 class App extends Component {
   render() {
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(customTheme)}>
+      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
         <Router history={hashHistory}>
           <Route path="/" component={Container}>
             <IndexRoute component={SignIn} />
