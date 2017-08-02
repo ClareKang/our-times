@@ -34,28 +34,25 @@ class SignIn extends Component {
     const { user } = this.state;
     const displayName = user ? user.displayName : 'Unknown';
     return (
-      <div>
-        <Paper style={paperStyle}>
-          <h3>Sign In</h3>
-          {
-            user ?
-            <div>
-              <h4>Hello, {displayName}!</h4>
-              <Link to="/check">
-                <RaisedButton
-                  label="Go Check"
-                  primary
-                />
-              </Link>
-            </div>
-            :
-            <RaisedButton
-              label="Sign In With Google"
-              onClick={this.signIn}
-              primary
-            />
-          }
-        </Paper>
+      <div style={paperStyle}>
+        <h3>Sign In</h3>
+        {
+          user
+            ? <div>
+                <h4>Hello, {displayName}!</h4>
+                <Link to="/check">
+                  <RaisedButton
+                    label="Go Check"
+                    primary
+                  />
+                </Link>
+              </div>
+            : <RaisedButton
+                label="Sign In With Google"
+                onClick={this.signIn}
+                primary
+              />
+        }
       </div>
     );
   }

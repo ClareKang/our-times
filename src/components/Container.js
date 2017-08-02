@@ -5,7 +5,7 @@ class Container extends Component {
   render() {
     const { children } = this.props;
     return (
-      <div>
+      <div style={{ height: '100vh' }}>
         <AppBar />
         <div>
           {children}

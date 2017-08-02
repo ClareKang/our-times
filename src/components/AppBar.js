@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { AppBar as MUIAppBar, FlatButton } from 'material-ui';
 import FireBaseTools, { currentUser } from '../helpers/firebase';
 
-const appBarTitle = process.env.REACT_APP_TITLE;
+const appBarTitle = process.env.REACT_APP_WEBSITE_NAME;
+const appBarTitleStyle = {
+  color: '#fff',
+};
 
 class AppBar extends Component {
   constructor(props) {
@@ -32,12 +35,14 @@ class AppBar extends Component {
       <FlatButton
         label="Sign In"
         onClick={this.signIn}
+        labelStyle={appBarTitleStyle}
       />
     );
     const ButtonSignOut = (
       <FlatButton
         label="Sign Out"
         onClick={this.signOut}
+        labelStyle={appBarTitleStyle}
       />
     );
     const button = user ? ButtonSignOut : ButtonSignIn;
@@ -45,6 +50,7 @@ class AppBar extends Component {
     return (
       <MUIAppBar
         title={appBarTitle}
+        titleStyle={appBarTitleStyle}
         showMenuIconButton={false}
         iconElementRight={button}
       />
