@@ -1,19 +1,37 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import { currentUser } from './helpers/firebase';
+
+// material ui
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import customTheme from './helpers/theme';
+
+import Container from './components/Container';
+import SignIn from './components/SignIn';
+import Check from './components/Check';
+
+const requireAuth = (nextState, replace) => {
+  const user = currentUser();
+  if (!user) { // no session user date
+    replace({
+      pathname: '/',
+      state: { nextPathname: nextState.location.pathname },
+    });
+  }
+};
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <MuiThemeProvider muiTheme={getMuiTheme(customTheme)}>
+        <Router history={hashHistory}>
+          <Route path="/" component={Container}>
+            <IndexRoute component={SignIn} />
+            <Route path="/check" component={Check} onEnter={requireAuth} />
+          </Route>
+        </Router>
+      </MuiThemeProvider>
     );
   }
 }
