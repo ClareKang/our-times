@@ -42,17 +42,13 @@ const FireBaseTools = {
         console.log(error);
       });
   },
-  signOut: (callback = () => {}) => {
+  signOut: () => {
     return FirebaseAuth
       .signOut()
       .then(() => {
         // Sign-out successful and clear data.
         window.localStorage.clear();
-        if (typeof callback === 'function') {
-          callback();
-        } else {
-          window.location.reload();
-        }
+        window.location.reload();
       });
   },
   getAdmins: (callback = () => {}) => {

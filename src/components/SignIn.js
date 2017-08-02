@@ -16,18 +16,11 @@ class SignIn extends Component {
       user: user || null,
     };
     this.signIn = this.signIn.bind(this);
-    this.signOut = this.signOut.bind(this);
   }
   signIn() {
     const user = FireBaseTools.signIn();
     this.setState({
       user,
-    });
-  }
-  signOut() {
-    FireBaseTools.signOut();
-    this.setState({
-      user: null,
     });
   }
   render() {

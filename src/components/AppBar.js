@@ -24,10 +24,9 @@ class AppBar extends Component {
     });
   }
   signOut() {
-    FireBaseTools.signOut();
     this.setState({
       user: null,
-    });
+    }, FireBaseTools.signOut);
   }
   render() {
     const { user } = this.state;
