@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { RaisedButton, FlatButton, IconButton, TextField } from 'material-ui';
-import { fullWhite, teal500 } from 'material-ui/styles/colors';
+import { fullWhite, blueGrey500 } from 'material-ui/styles/colors';
 import EditIcon from 'material-ui/svg-icons/image/edit';
 import SaveIcon from 'material-ui/svg-icons/content/save';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
@@ -148,7 +148,7 @@ class Checkbox extends Component {
                     onClick={this.update}
                     disabled={updateDisabled}
                   >
-                    <SaveIcon color={teal500} />
+                    <SaveIcon color={blueGrey500} />
                   </IconButton>
                   <IconButton
                     tooltip="취소"
@@ -174,8 +174,8 @@ class Checkbox extends Component {
         </h2>
         <RaisedButton
           label={`지금 ${label}했어요!`}
-          labelColor={fullWhite}
           onClick={this.handleClick}
+          labelColor={fullWhite}
           primary
           disabled={isChecked}
         />
@@ -183,7 +183,7 @@ class Checkbox extends Component {
           isChecked
             ? <FlatButton
                 label="다시 체크하기"
-                primary
+                secondary
                 style={{ marginLeft: 10 }}
                 onClick={this.recheck}
               />

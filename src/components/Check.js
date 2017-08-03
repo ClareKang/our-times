@@ -14,6 +14,7 @@ const textCenterStyle = {
 const paperStyle = {
   padding: 30,
   lineHeight: '1.4em',
+  backgroundColor: 'transparent',
 };
 
 class Check extends Component {
