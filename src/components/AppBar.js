@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AppBar as MUIAppBar, FlatButton } from 'material-ui';
-import FireBaseTools, { currentUser } from '../helpers/firebase';
+import FireBaseTools from '../models/firebase';
 
 const appBarTitle = process.env.REACT_APP_WEBSITE_NAME;
 const appBarTitleStyle = {
@@ -10,7 +10,7 @@ const appBarTitleStyle = {
 class AppBar extends Component {
   constructor(props) {
     super(props);
-    const user = currentUser();
+    const user = FireBaseTools.user;
     this.state = {
       user: user || null,
     };
@@ -18,10 +18,13 @@ class AppBar extends Component {
     this.signOut = this.signOut.bind(this);
   }
   signIn() {
-    const user = FireBaseTools.signIn();
-    this.setState({
-      user,
-    });
+    FireBaseTools
+      .signIn()
+      .then((user) => {
+        this.setState({
+          user,
+        });
+      });
   }
   signOut() {
     this.setState({

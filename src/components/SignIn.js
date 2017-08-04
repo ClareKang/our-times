@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { RaisedButton, Paper } from 'material-ui';
-import FireBaseTools, { currentUser } from '../helpers/firebase';
+import FireBaseTools from '../models/firebase';
 
 const paperStyle = {
   padding: 30,
@@ -11,17 +11,20 @@ const paperStyle = {
 class SignIn extends Component {
   constructor(props) {
     super(props);
-    const user = currentUser();
+    const user = FireBaseTools.user;
     this.state = {
       user: user || null,
     };
     this.signIn = this.signIn.bind(this);
   }
   signIn() {
-    const user = FireBaseTools.signIn();
-    this.setState({
-      user,
-    });
+    FireBaseTools
+      .signIn()
+      .then((user) => {
+        this.setState({
+          user,
+        });
+      });
   }
   render() {
     const { user } = this.state;

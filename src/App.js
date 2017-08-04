@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
-import { currentUser } from './helpers/firebase';
+import FirebaseTools from './models/firebase';
 
 // material ui
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -12,7 +12,7 @@ import SignIn from './components/SignIn';
 import Check from './components/Check';
 
 const requireAuth = (nextState, replace) => {
-  const user = currentUser();
+  const user = FirebaseTools.user;
   if (!user) { // no session user date
     replace({
       pathname: '/',

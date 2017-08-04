@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { Paper } from 'material-ui';
-import { FirebaseDb, currentUser } from '../helpers/firebase';
-import endpoint from '../helpers/endpoint';
+import FirebaseTools, { FirebaseDb, currentUser } from '../models/firebase';
+import { POST_DB_PATH } from '../app.config';
 
 import Checkbox from './Checkbox';
 
@@ -20,10 +20,10 @@ const paperStyle = {
 class Check extends Component {
   constructor(props) {
     super(props);
-    const userInfo = currentUser();
-    const date = moment(new Date()).format('YYYY-MM-DD');
+    const user = FirebaseTools.user;
+    const date = moment(new Date());
     this.state = {
-      userInfo,
+      user,
       date,
       start: null,
       end: null,
@@ -32,40 +32,42 @@ class Check extends Component {
   }
   componentWillMount() {
     const { date } = this.state;
-    const currentDate = new Date(date);
-    const weekNo = moment(currentDate).format('YYYY-WW');
-    const monthNo = moment(currentDate).format('YYYY-MM');
+    const weekNo = date.week();
+    const currentDate = date.format('YYYY-MM-DD');
+
     // get daily
-    FirebaseDb
-      .ref(`${endpoint.getUserCheckMonthly(monthNo, date, 'START')}`)
-      .orderByChild('time')
-      .limitToFirst(1)
-      .on('child_added', snapshot => {
-        const val = snapshot.val();
-        this.setState({
-          start: val.timestamp,
-        });
-      });
-    FirebaseDb
-      .ref(`${endpoint.getUserCheckMonthly(monthNo, date, 'END')}`)
-      .orderByChild('time')
-      .limitToLast(1)
-      .on('child_added', snapshot => {
-        const val = snapshot.val();
-        this.setState({
-          end: val.timestamp,
-        });
-      });
-    // get weekly
-    FirebaseDb
-      .ref(`${endpoint.getUserCheckWeekly(weekNo)}`)
-      .orderByChild('time')
-      .on('value', snapshot => {
-        const val = snapshot.val();
-        this.setState({
-          weekly: val,
-        });
-      });
+    FirebaseTools.getToday(currentDate);
+    // FirebaseDb
+    //   .ref(`${POST_DB_PATH}/${}`)
+    //   .orderByChild('timestamp')
+    //   .equalTo('IN', 'type')
+    //   .limitToFirst(1)
+    //   .on('child_added', snapshot => {
+    //     const val = snapshot.val();
+    //     this.setState({
+    //       start: val.timestamp,
+    //     });
+    //   });
+    // FirebaseDb
+    //   .ref(POST_DB_PATH)
+    //   .orderByChild('timestamp')
+    //   .limitToLast(1)
+    //   .on('child_added', snapshot => {
+    //     const val = snapshot.val();
+    //     this.setState({
+    //       end: val.timestamp,
+    //     });
+    //   });
+    // // get weekly
+    // FirebaseDb
+    //   .ref(POST_DB_PATH)
+    //   .orderByChild('time')
+    //   .on('value', snapshot => {
+    //     const val = snapshot.val();
+    //     this.setState({
+    //       weekly: val,
+    //     });
+    //   });
   }
   getValue(timeObj, timeType, date) {
     let time = null;
@@ -115,7 +117,7 @@ class Check extends Component {
     return result;
   }
   render() {
-    const { userInfo, start, end, date } = this.state;
+    const { user, start, end, date } = this.state;
     const totalWorkTime = TOTAL_WORK_TIME * 3600;
     let todayWorkingTime = 0;
 
@@ -143,15 +145,15 @@ class Check extends Component {
         </Paper>
         <Checkbox
           label="출근"
-          timeType="START"
-          userInfo={userInfo}
+          timeType="IN"
+          user={user}
           date={date}
           time={start}
         />
         <Checkbox
           label="퇴근"
-          timeType="END"
-          userInfo={userInfo}
+          timeType="OUT"
+          user={user}
           date={date}
           time={end}
         />

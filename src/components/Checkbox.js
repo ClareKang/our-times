@@ -5,8 +5,8 @@ import { fullWhite, blueGrey500 } from 'material-ui/styles/colors';
 import EditIcon from 'material-ui/svg-icons/image/edit';
 import SaveIcon from 'material-ui/svg-icons/content/save';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
-import { FirebaseDb } from '../helpers/firebase';
-import endpoint from '../helpers/endpoint';
+import { Firebase, FirebaseDb } from '../models/firebase';
+import Post from '../models/post';
 
 const paperStyle = {
   padding: '20px 30px',
@@ -42,32 +42,20 @@ class Checkbox extends Component {
   }
   handleClick(e) {
     e.preventDefault();
-    const currentDate = new Date();
-    const time = moment(currentDate).format('HH:mm:ss');
-    const {
-      date, timeType,
-    } = this.props;
-    const postData = {
-      // author: userInfo.displayName,
-      // uid: userInfo.uid,
-      date,
-      timestamp: currentDate.getTime(),
-      time,
-    };
-    const weekNo = moment(currentDate).format('YYYY-WW');
-    const monthNo = moment(currentDate).format('YYYY-MM');
-    const newPostKey = FirebaseDb.ref().child('user-checks').push().key;
-    const updates = {};
-    updates[endpoint.setUserCheckMonthly(monthNo, date, timeType, newPostKey)] = postData;
-    updates[endpoint.setUserCheckWeekly(weekNo, date, timeType, newPostKey)] = postData;
-    FirebaseDb.ref().update(updates, error => {
-      if (error) {
-        alert(`Data could not be saved. ${error}`);
-      }
-    });
-    this.setState({
-      time: currentDate.getTime(),
-    });
+    const { type } = this.props;
+    // const postData = new Post(type, new Date());
+    // const newPostKey = FirebaseDb.ref().child('user-checks').push().key;
+    // const updates = {};
+    // updates[endpoint.setUserCheckMonthly(monthNo, date, timeType, newPostKey)] = postData;
+    // updates[endpoint.setUserCheckWeekly(weekNo, date, timeType, newPostKey)] = postData;
+    // FirebaseDb.ref().update(updates, error => {
+    //   if (error) {
+    //     alert(`Data could not be saved. ${error}`);
+    //   }
+    // });
+    // this.setState({
+    //   time: currentDate.getTime(),
+    // });
   }
   recheck() {
     this.setState({
@@ -75,32 +63,32 @@ class Checkbox extends Component {
     });
   }
   update() {
-    const {
-      date, timeType,
-    } = this.props;
-    const timeString = `${date} ${this.state.text}`;
-    const timestamp = moment(timeString).unix() * 1000;
-    const postData = {
-      // author: userInfo.displayName,
-      // uid: userInfo.uid,
-      date,
-      timestamp,
-      time: this.state.text,
-    };
-    const weekNo = moment(date).format('YYYY-WW');
-    const monthNo = moment(date).format('YYYY-MM');
-    const newPostKey = FirebaseDb.ref().child('user-checks').push().key;
-    const updates = {};
-    updates[endpoint.setUserCheckMonthly(monthNo, date, timeType, newPostKey)] = postData;
-    updates[endpoint.setUserCheckWeekly(weekNo, date, timeType, newPostKey)] = postData;
-    FirebaseDb.ref().update(updates, error => {
-      if (error) {
-        alert(`Data could not be saved. ${error}`);
-      }
-    });
-    this.setState({
-      mode: false,
-    });
+    // const {
+    //   date, timeType,
+    // } = this.props;
+    // const timeString = `${date} ${this.state.text}`;
+    // const timestamp = moment(timeString).unix() * 1000;
+    // const postData = {
+    //   // author: userInfo.displayName,
+    //   // uid: userInfo.uid,
+    //   date,
+    //   timestamp,
+    //   time: this.state.text,
+    // };
+    // const weekNo = moment(date).format('YYYY-WW');
+    // const monthNo = moment(date).format('YYYY-MM');
+    // const newPostKey = FirebaseDb.ref().child('user-checks').push().key;
+    // const updates = {};
+    // updates[endpoint.setUserCheckMonthly(monthNo, date, timeType, newPostKey)] = postData;
+    // updates[endpoint.setUserCheckWeekly(weekNo, date, timeType, newPostKey)] = postData;
+    // FirebaseDb.ref().update(updates, error => {
+    //   if (error) {
+    //     alert(`Data could not be saved. ${error}`);
+    //   }
+    // });
+    // this.setState({
+    //   mode: false,
+    // });
   }
   changeMode(mode) {
     this.setState({
